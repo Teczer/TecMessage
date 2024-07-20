@@ -1,9 +1,11 @@
 import { useColorScheme } from "nativewind";
 
-import { Platform, Text, View } from "react-native";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
 import ToggleTheme from "@/components/ToggleTheme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { storage } from "@/lib/mmkv";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabTwoScreen() {
   const { colorScheme, setColorScheme } = useColorScheme();
@@ -31,6 +33,24 @@ export default function TabTwoScreen() {
           theme="dark"
         />
       </View>
+      <TouchableOpacity
+        className="flex-row items-center justify-center bg-stone-100 dark:bg-stone-950 border rounded px-4 py-2"
+        onPress={() => {
+          storage.clearAll();
+        }}
+        style={{
+          borderColor:
+            colorScheme === "dark"
+              ? "rgba(255,255,255,0.2)"
+              : "rgba(0,0,0,0.2)",
+        }}
+      >
+        <FontAwesome
+          name="trash"
+          size={24}
+          color={colorScheme === "dark" ? "white" : "black"}
+        />
+      </TouchableOpacity>
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </SafeAreaView>
   );
