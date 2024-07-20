@@ -31,7 +31,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
   const userThemeData = storage.getString("app-theme");
-  console.log("userThemeData", userThemeData);
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;

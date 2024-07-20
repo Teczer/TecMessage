@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import { ColorSchemeSystem } from "nativewind/dist/style-sheet/color-scheme";
 import { capitalizeFirstLetter } from "@/lib/utils";
+import { storage } from "@/lib/mmkv";
 
 interface Props {
   theme: "light" | "dark";
@@ -44,6 +45,7 @@ export default function ToggleTheme({
       }}
       onPress={async () => {
         setColorScheme(theme as "light" | "dark" | "system");
+        storage.set("app-theme", theme);
       }}
     >
       <View
