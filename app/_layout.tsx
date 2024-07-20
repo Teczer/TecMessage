@@ -1,3 +1,4 @@
+import { storage } from "@/lib/mmkv";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   DarkTheme,
@@ -29,7 +30,8 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
-
+  const userThemeData = storage.getString("app-theme");
+  console.log("userThemeData", userThemeData);
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
