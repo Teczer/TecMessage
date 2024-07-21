@@ -5,12 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { storage } from "@/lib/mmkv";
 import { socket } from "@/lib/socket";
 import { useColorScheme } from "nativewind";
-
+import { StatusBar } from "expo-status-bar";
+import { formatTimestamp } from "@/lib/utils";
+import { SafeAreaView } from "react-native-safe-area-context";
 interface Message {
   message: string;
   senderId: string;
@@ -102,14 +105,19 @@ const ChatPage: React.FC = () => {
   };
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <SafeAreaView style={{ flex: 1, padding: 16 }}>
+      <Text className="text-2xl font-bold dark:text-white">Room {roomId}</Text>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "flex-end" }}
       >
-        {messages.map((msg) => (
-          <View key={msg.timestamp} style={{ marginBottom: 8 }}>
+        {/* TODO: key should be msg.id */}
+        {messages.map((msg, index) => (
+          <View key={index} style={{ marginBottom: 8 }}>
             <Text style={{ color: colorScheme === "dark" ? "#fff" : "#000" }}>
               {msg.senderUsername}: {msg.message}
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              {formatTimestamp(msg.timestamp)}
             </Text>
           </View>
         ))}
@@ -132,7 +140,8 @@ const ChatPage: React.FC = () => {
       >
         <Text style={{ color: "white" }}>Send</Text>
       </TouchableOpacity>
-    </View>
+      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+    </SafeAreaView>
   );
 };
 
