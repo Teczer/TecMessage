@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useColorScheme } from "nativewind";
+import { useRouter } from "expo-router";
 
 import { getUserStored, storage } from "@/lib/mmkv";
-import { generateUserId } from "@/lib/utils";
+import { generateUserId, mergedIds } from "@/lib/utils";
 import { socket } from "@/lib/socket";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,6 +19,7 @@ import PingAnimation from "@/components/PingAnimation";
 
 export default function TabOneScreen() {
   const { colorScheme } = useColorScheme();
+  const router = useRouter();
 
   const storedUser: User | null = getUserStored();
   const [user, setUser] = useState<User | null>(storedUser);
@@ -113,6 +115,13 @@ export default function TabOneScreen() {
                         colorScheme === "dark"
                           ? "rgba(255,255,255,0.2)"
                           : "rgba(0,0,0,0.2)",
+                    }}
+                    onPress={() => {
+                      const roomId = mergedIds(user.id, connectedUser.id);
+                      console.log("roomId", roomId);
+                      router.push(
+                        `/chat/${mergedIds(user.id, connectedUser.id)}`
+                      );
                     }}
                   >
                     <Text className="text-sm font-bold text-dark dark:text-white">

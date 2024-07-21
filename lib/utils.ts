@@ -14,3 +14,8 @@ export function generateUserId(length: number) {
   }
   return result;
 }
+
+export const mergedIds = (id1: string, id2: string) => {
+  // Crée un identifiant unique en triant les identifiants et en les concaténant
+  return [id1, id2].sort().join("_");
+};
